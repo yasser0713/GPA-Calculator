@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المعدلات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>حاسبة المعدلات</h1>
+        <p class="subtitle">احسب معدلك الجامعي أو المدرسي بسهولة</p>
+        
+        <div class="input-section">
+            <h2>إدخال المواد</h2>
+            <div id="coursesInputContainer">
+                <!-- سيتم ملؤها ديناميكياً -->
+            </div>
+            
+            <button onclick="addAllCourses()" class="btn-add">إضافة جميع المواد</button>
+        </div>
+
+        <div class="courses-section">
+            <h2>المواد المدخلة:</h2>
+            <table class="courses-table">
+                <thead>
+                    <tr>
+                        <th>اسم المادة</th>
+                        <th>الأقسام والنسب</th>
+                        <th>المعدل</th>
+                        <th>المعامل</th>
+                        <th>حذف</th>
+                    </tr>
+                </thead>
+                <tbody id="coursesList">
+                    <tr class="empty-row">
+                        <td colspan="5">لم تتم إضافة مواد بعد</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="results-section">
+            <div class="result-card">
+                <h3>المعدل الحسابي</h3>
+                <p class="result-value" id="averageGrade">0.00</p>
+            </div>
+            
+            <div class="result-card">
+                <h3>المعدل المرجح</h3>
+                <p class="result-value" id="weightedAverage">0.00</p>
+            </div>
+
+            <div class="result-card status-card">
+                <h3>الحالة</h3>
+                <p class="result-value status-value" id="statusValue">-</p>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button onclick="clearAll()" class="btn-clear">مسح الكل</button>
+            <button onclick="downloadResults()" class="btn-download">تحميل النتائج</button>
+        </div>
+
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
