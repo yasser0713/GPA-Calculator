@@ -60,6 +60,7 @@ function createCourseInputCards() {
                 <div class="input-group">
                     <label>عدد الفترات:</label>
                     <select id="courseNumPeriods${i}" onchange="updatePeriods(${i})" class="periods-select">
+                        <option value="1">فترة واحدة (1)</option>
                         <option value="2">فترتان (2)</option>
                         <option value="3" selected>ثلاث فترات (3)</option>
                         <option value="4">أربع فترات (4)</option>
