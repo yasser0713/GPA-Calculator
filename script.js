@@ -1,6 +1,39 @@
 let courses = [];
 const NUM_COURSES_INPUT = 10;
 
+function generatePeriodsHTML(courseIndex, numPeriods = 3) {
+    const periodLabels = ['الفترة الأولى', 'الفترة الثانية', 'الفترة الثالثة', 'الفترة الرابعة', 'الفترة الخامسة'];
+    const basePercent = Math.round((100 / numPeriods) * 100) / 100;
+    
+    let periodsHTML = '';
+    for (let j = 0; j < numPeriods; j++) {
+        const percentage = j === numPeriods - 1 
+            ? Math.round((100 - (basePercent * (numPeriods - 1))) * 100) / 100 
+            : basePercent;
+        
+        periodsHTML += `
+            <div class="course-card-section">
+                <div class="input-group">
+                    <label>${periodLabels[j]}:</label>
+                    <input type="number" id="courseGrade${courseIndex}_${j}" min="0" max="100" step="0.01" placeholder="الدرجة" class="section-grade">
+                </div>
+                <div class="input-group">
+                    <label>النسبة (%):</label>
+                    <input type="number" id="coursePercentage${courseIndex}_${j}" min="0" max="100" step="0.01" value="${percentage}" class="section-percentage">
+                </div>
+            </div>
+        `;
+    }
+    return periodsHTML;
+}
+
+function updatePeriods(courseIndex) {
+    const numPeriodsSelect = document.getElementById(`courseNumPeriods${courseIndex}`);
+    const numPeriods = parseInt(numPeriodsSelect.value);
+    const sectionsContainer = document.getElementById(`courseSections${courseIndex}`);
+    sectionsContainer.innerHTML = generatePeriodsHTML(courseIndex, numPeriods);
+}
+
 function createCourseInputCards() {
     const container = document.getElementById('coursesInputContainer');
     container.innerHTML = '';
@@ -9,9 +42,6 @@ function createCourseInputCards() {
         const card = document.createElement('div');
         card.className = 'course-input-card';
         card.id = `courseCard${i}`;
-        
-        const basePercent = Math.floor((100 / 2) * 100) / 100;
-        const remainder = Math.round((100 - (basePercent * 1)) * 100) / 100;
 
         card.innerHTML = `
             <h3>المادة ${i + 1}</h3>
@@ -26,30 +56,20 @@ function createCourseInputCards() {
                     <label>المعامل:</label>
                     <input type="number" id="courseCoefficient${i}" min="0" value="1" class="course-coefficient-input">
                 </div>
+
+                <div class="input-group">
+                    <label>عدد الفترات:</label>
+                    <select id="courseNumPeriods${i}" onchange="updatePeriods(${i})" class="periods-select">
+                        <option value="2">فترتان (2)</option>
+                        <option value="3" selected>ثلاث فترات (3)</option>
+                        <option value="4">أربع فترات (4)</option>
+                        <option value="5">خمس فترات (5)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="course-sections">
-                <div class="course-card-section">
-                    <div class="input-group">
-                        <label>الفترة الأولى:</label>
-                        <input type="number" id="courseGrade${i}_0" min="0" max="100" step="0.01" placeholder="الدرجة" class="section-grade">
-                    </div>
-                    <div class="input-group">
-                        <label>النسبة (%):</label>
-                        <input type="number" id="coursePercentage${i}_0" min="0" max="100" step="0.01" value="${basePercent}" class="section-percentage">
-                    </div>
-                </div>
-
-                <div class="course-card-section">
-                    <div class="input-group">
-                        <label>الفترة الثانية:</label>
-                        <input type="number" id="courseGrade${i}_1" min="0" max="100" step="0.01" placeholder="الدرجة" class="section-grade">
-                    </div>
-                    <div class="input-group">
-                        <label>النسبة (%):</label>
-                        <input type="number" id="coursePercentage${i}_1" min="0" max="100" step="0.01" value="${remainder}" class="section-percentage">
-                    </div>
-                </div>
+            <div class="course-sections" id="courseSections${i}">
+                ${generatePeriodsHTML(i, 3)}
             </div>
         `;
         
@@ -180,9 +200,9 @@ function updateTable() {
     }
 
     tbody.innerHTML = courses.map(course => {
-        const labels = ['فترة أولى', 'فترة ثانية', 'نهائي'];
+        const periodLabels = ['فترة أولى', 'فترة ثانية', 'فترة ثالثة', 'فترة رابعة', 'فترة خامسة'];
         let sectionsInfo = course.sections.map((sec, idx) => 
-            `${labels[idx] || 'قسم ' + (idx + 1)}: ${sec.grade.toFixed(2)} (${sec.percentage}%)`
+            `${periodLabels[idx] || 'فترة ' + (idx + 1)}: ${sec.grade.toFixed(2)} (${sec.percentage}%)`
         ).join(' | ');
 
         return `

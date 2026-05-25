@@ -165,7 +165,7 @@ select:focus {
 
 .course-header {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 1fr 1.2fr;
     gap: 12px;
     margin-bottom: 15px;
 }
@@ -189,6 +189,22 @@ select:focus {
 
 .course-header input:focus,
 .course-header select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.periods-select {
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.95em;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.periods-select:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
